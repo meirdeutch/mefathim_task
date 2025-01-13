@@ -35,6 +35,7 @@ const UserDetailsForm = ({ userDetails }) => {
             email: "",
             password: ""
         });
+        navigate('/display-users');
     };
     return (
         <Form onSubmit={handleSaveChanges}>
