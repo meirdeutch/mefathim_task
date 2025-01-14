@@ -27,12 +27,16 @@ const DisplayUsersComponent = () => {
         navigate('/user-form');
     }
     const handleDeleteUser = async (user_id) => {
-        const result = await deleteUser(user_id, token);
-        if (result.success){
-            setUsers(prevUsers => prevUsers.filter(user => user._id !== user_id));
-        }else {
-            alert(result.error)
+        const userConfirmed = window.confirm("Are you sure you want to delete the user?");
+        if (userConfirmed) {
+            const result = await deleteUser(user_id, token);
+            if (result.success) {
+                setUsers(prevUsers => prevUsers.filter(user => user._id !== user_id));
+            } else {
+                alert(result.error)
+            }
         }
+
     }
     const handleEditUser = (userDetails) => {
         navigate('/user-form', { state: { userDetails } })
