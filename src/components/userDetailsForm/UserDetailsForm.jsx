@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Buttons, Form, Label, Input } from "./UserDetailsForm.style";
 import { useNavigate } from "react-router-dom";
 import { addUser, editUser } from "../../api/api";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const UserDetailsForm = ({ userDetails }) => {
     const editExistingUser = userDetails ? true : false;
@@ -23,9 +25,18 @@ const UserDetailsForm = ({ userDetails }) => {
         e.preventDefault();
         const result = editExistingUser ? await editUser(userDetails._id, user, token) : await addUser(user, token);
         if (result.success) {
+            toast.success(editExistingUser ? "User details have been successfully updated! " : "User successfully added", {
+                position: "top-right",
+                autoClose: 3000,  
+                hideProgressBar: true,
+              });
             navigate('/display-users')
         } else {
-            alert(result.error)
+            toast.error(result.error, {
+                position: "top-right",
+                autoClose: 3000,  
+                hideProgressBar: true,
+              });
         }
     };
     const handleDeleteChanges = () => {
@@ -72,7 +83,7 @@ const UserDetailsForm = ({ userDetails }) => {
                 /></>)}
 
             <Buttons>
-                <Button type="submit">Seva the changes</Button>
+                <Button type="submit">Save the changes</Button>
                 <Button type="button" onClick={handleDeleteChanges}>Delete the changes</Button>
             </Buttons>
         </Form>

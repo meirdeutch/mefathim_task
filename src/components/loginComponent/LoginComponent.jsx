@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../api/api";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/loginStatus/loginStatusSlice";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const LoginComponent = () => {
     const [username, setUsername] = useState("")
@@ -15,9 +17,18 @@ const LoginComponent = () => {
         const result = await loginUser(username, password);
         if (result.success){
             dispatch(login({token: result.data.token}))
+            toast.success("You have successfully connected", {
+                position: "top-right",
+                autoClose: 3000,  
+                hideProgressBar: true,
+              });
             navigate("/display-users");
         } else {
-            alert(result.error);
+            toast.error(result.error, {
+                position: "top-right",
+                autoClose: 3000,  
+                hideProgressBar: true,
+              });
         }
     }
     return (

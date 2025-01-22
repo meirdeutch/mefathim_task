@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { deleteUser, displayUsers } from "../../api/api";
 import { useSelector } from "react-redux";
 import { selectToken } from "../../redux/loginStatus/loginStatusSlice";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const DisplayUsersComponent = () => {
     const [users, setUsers] = useState([]);
@@ -31,19 +33,27 @@ const DisplayUsersComponent = () => {
         if (userConfirmed) {
             const result = await deleteUser(user_id, token);
             if (result.success) {
+                toast.success("The user was successfully deleted", {
+                    position: "top-right",
+                    autoClose: 3000,  
+                    hideProgressBar: true,
+                  });
                 setUsers(prevUsers => prevUsers.filter(user => user._id !== user_id));
             } else {
-                alert(result.error)
+                toast.error(result.error, {
+                    position: "top-right",
+                    autoClose: 3000,  
+                    hideProgressBar: true,
+                  });
             }
         }
-
     }
     const handleEditUser = (userDetails) => {
         navigate('/user-form', { state: { userDetails } })
     }
     return (
         <UsersContainer>
-            <h2>Users List</h2>
+            <h2>User List</h2>
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
@@ -57,14 +67,14 @@ const DisplayUsersComponent = () => {
                                     <p>Full name: {user.fullName}</p>
                                 </div>
                                 <div className="user-actions ">
-                                    <EditButton onClick={() => { handleEditUser(user) }}>Edit users details</EditButton>
+                                    <EditButton onClick={() => { handleEditUser(user) }}>Edit user information</EditButton>
                                     <DeleteButton onClick={() => { handleDeleteUser(user._id) }}>Delete user</DeleteButton>
                                 </div>
                             </UserItem>
                         ))}
                     </UserList>
                     <AddUserButton onClick={handleAddUser}>
-                        Add New User
+                        Add a new user
                     </AddUserButton>
                 </>
             )}
