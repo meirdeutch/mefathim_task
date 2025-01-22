@@ -1,6 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { displayUsers } from "../../api/api";
 
+export const checkToken = createAsyncThunk(
+    'loginStatus/checkToken',
+    async (token) => {
+        const response = await displayUsers(token);
+        if (!response.success) {
+            localStorage.removeItem('token');
+            return null;
+        }
+        return token;
+    }
+);
 const initialState = {
+
     token: localStorage.getItem('token') || null,
     isLoggedIn: !!localStorage.getItem('token'),
 };
@@ -21,7 +34,7 @@ const loginStatusSlice = createSlice({
         },
     },
 });
-export const {login, logout} = loginStatusSlice.actions;
+export const { login, logout } = loginStatusSlice.actions;
 export const selectIsLoggedIn = (state) => state.loginStatus.isLoggedIn;
 export const selectToken = (state) => state.loginStatus.token;
 export default loginStatusSlice.reducer;
