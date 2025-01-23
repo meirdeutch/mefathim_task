@@ -1,17 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { displayUsers } from "../../api/api";
+import {createSlice } from "@reduxjs/toolkit";
 
-export const checkToken = createAsyncThunk(
-    'loginStatus/checkToken',
-    async (token) => {
-        const response = await displayUsers(token);
-        if (!response.success) {
-            localStorage.removeItem('token');
-            return null;
-        }
-        return token;
-    }
-);
 const initialState = {
 
     token: localStorage.getItem('token') || null,

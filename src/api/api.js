@@ -30,6 +30,8 @@ export const displayUsers = async (token) => {
         const data = await response.json();
         if (response.ok) {
             return { success: true, data: data }
+        } else if (response.status == 401 || response.status == 403) {
+            return { success: false, error: "Unable to perform the operation, please log in again" }
         } else {
             return { success: false, error: "Problem accepting users" }
         }
@@ -48,6 +50,8 @@ export const deleteUser = async (user_id, token) => {
         })
         if (response.ok) {
             return { success: true }
+        } else if (response.status == 401 || response.status == 403) {
+            return { success: false, error: "Unable to perform the operation, please log in again" }
         } else {
             return { success: false, error: "Problem deleting the user" }
         }
@@ -68,6 +72,8 @@ export const addUser = async (user, token) => {
         })
         if (response.ok) {
             return { success: true }
+        } else if (response.status == 401 || response.status == 403) {
+            return { success: false, error: "Unable to perform the operation, please log in again" }
         } else {
             return { success: false, error: "Problem adding the user" }
         }
@@ -86,12 +92,14 @@ export const editUser = async (user_id, user, token) => {
             },
             body: JSON.stringify(user)
         })
-        if (response.ok){
-            return {success: true}
-        }else {
-            return {success: false, error: "Problem editing user"}
+        if (response.ok) {
+            return { success: true }
+        } else if (response.status == 401 || response.status == 403) {
+            return { success: false, error: "Unable to perform the operation, please log in again" }
+        } else {
+            return { success: false, error: "Problem editing user" }
         }
-    }catch(error) {
+    } catch (error) {
         return { success: false, error: "Network error, please try again later" }
     }
 };
