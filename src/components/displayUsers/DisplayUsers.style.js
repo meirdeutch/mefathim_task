@@ -2,20 +2,28 @@ import styled, { keyframes } from 'styled-components';
 
 export const UsersContainer = styled.div`
     padding: 20px;
+    padding-top: 0;
+    padding-bottom: 60px;
     background-color: #f4f4f9;
     border-radius: 8px;
     width: 80%;
     margin: 0 auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-    h2 {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  
+`;
+export const Header = styled.div`
+    background-color: #f4f4f9;
+    position: sticky;
+    top: 0;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h1 {
         text-align: center;
         color: #333;
         font-size: 24px;
-        margin-bottom: 20px;
     }
 `;
-
 export const UserList = styled.ul`
     list-style-type: none;
     padding: 0;
@@ -69,6 +77,10 @@ export const AddUserButton = styled.button`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    position: fixed;
+    bottom: 0;  
+    left: 50%; 
+    transform: translateX(-50%);
     
     &:hover {
         background-color: #45a049;

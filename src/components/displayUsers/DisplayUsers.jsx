@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { UserList, UsersContainer, UserItem, AddUserButton, EditButton, DeleteButton, LoadingSpinner } from "./DisplayUsers.style";
+import { UserList, UsersContainer, UserItem, AddUserButton, EditButton, DeleteButton, LoadingSpinner, Header } from "./DisplayUsers.style";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, displayUsers } from "../../api/api";
 import { useSelector } from "react-redux";
 import { selectToken } from "../../redux/loginStatus/loginStatusSlice";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 const DisplayUsersComponent = () => {
     const [users, setUsers] = useState([]);
@@ -35,16 +35,16 @@ const DisplayUsersComponent = () => {
             if (result.success) {
                 toast.success("The user was successfully deleted", {
                     position: "top-right",
-                    autoClose: 3000,  
+                    autoClose: 3000,
                     hideProgressBar: true,
-                  });
+                });
                 setUsers(prevUsers => prevUsers.filter(user => user._id !== user_id));
             } else {
                 toast.error(result.error, {
                     position: "top-right",
-                    autoClose: 3000,  
+                    autoClose: 3000,
                     hideProgressBar: true,
-                  });
+                });
             }
         }
     }
@@ -53,7 +53,9 @@ const DisplayUsersComponent = () => {
     }
     return (
         <UsersContainer>
-            <h2>User List</h2>
+            <Header>
+                <h1>User List</h1>
+            </Header>
             {isLoading ? (
                 <LoadingSpinner />
             ) : (
