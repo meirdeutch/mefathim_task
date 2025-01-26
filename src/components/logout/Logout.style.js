@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const Button = styled.button`
+export const LogoutButton = styled.button`
   position: fixed;
   top: 10px;
   right: 10px;
@@ -17,7 +17,7 @@ export const Button = styled.button`
   }
 `;
 
-export const Text = styled.span`
+export const logoutText = styled.span`
   margin-left: 5px;
   font-size: 14px;
 `;

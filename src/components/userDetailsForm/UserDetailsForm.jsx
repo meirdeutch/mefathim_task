@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { addUser, editUser } from "../../api/api";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/loginStatus/loginStatusSlice";
 
 const UserDetailsForm = ({ userDetails }) => {
     const editExistingUser = userDetails ? true : false;
@@ -15,6 +17,7 @@ const UserDetailsForm = ({ userDetails }) => {
     });
     const token = localStorage.getItem("token");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setUser((prevUser) => ({
@@ -37,6 +40,10 @@ const UserDetailsForm = ({ userDetails }) => {
                 autoClose: 3000,  
                 hideProgressBar: true,
               });
+              if (result.error === "Unable to perform the operation, please log in again"){
+                navigate('/');
+                dispatch(logout())
+              }
         }
     };
     const handleDeleteChanges = () => {

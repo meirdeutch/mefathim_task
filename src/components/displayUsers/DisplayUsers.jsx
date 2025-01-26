@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { UserList, UsersContainer, UserItem, AddUserButton, EditButton, DeleteButton, LoadingSpinner, Header } from "./DisplayUsers.style";
 import { useNavigate } from "react-router-dom";
 import { deleteUser, displayUsers } from "../../api/api";
-import { useSelector } from "react-redux";
-import { selectToken } from "../../redux/loginStatus/loginStatusSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectToken } from "../../redux/loginStatus/loginStatusSlice";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,6 +11,7 @@ const DisplayUsersComponent = () => {
     const [users, setUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const token = useSelector(selectToken);
     const fetchUsers = async () => {
         setIsLoading(true);
@@ -18,7 +19,15 @@ const DisplayUsersComponent = () => {
         if (result.success) {
             setUsers(result.data)
         } else {
-            alert(result.error)
+            toast.error(result.error, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+            });
+            if (result.error === "Unable to perform the operation, please log in again") {
+                navigate('/');
+                dispatch(logout())
+            }
         }
         setIsLoading(false)
     };
@@ -45,6 +54,10 @@ const DisplayUsersComponent = () => {
                     autoClose: 3000,
                     hideProgressBar: true,
                 });
+                if (result.error === "Unable to perform the operation, please log in again") {
+                    navigate('/');
+                    dispatch(logout())
+                }
             }
         }
     }
